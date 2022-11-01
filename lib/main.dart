@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -19,10 +20,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool maleIsPressed = false;
   bool femaleIsPressed = false;
-  int height = 120;
+  int height = 166;
+  int menAvgHeight = 176;
+  int womenAvgHeight = 162;
   int weight = 80;
+  int womenAvgWeight = 77;
+  int menAvgWeight = 90;
   int age = 30;
-  String gender = 'Male';
+  String gender = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +46,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       setState(() {
                         gender = 'Male';
+                        height = menAvgHeight;
+                        weight = menAvgWeight;
                         maleIsPressed = true;
                         femaleIsPressed = false;
                       });
@@ -70,6 +77,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       setState(() {
                         gender = 'Female';
+                        height = womenAvgHeight;
+                        weight = womenAvgWeight;
                         femaleIsPressed = true;
                         maleIsPressed = false;
                       });
@@ -126,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                     ]),
               ),
               Slider(
-                min: 0,
+                min: 45,
                 max: 251,
                 value: height.toDouble(),
                 onChanged: (value) {
@@ -262,14 +271,36 @@ class _HomePageState extends State<HomePage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ResultPage(
-                    age: age,
-                    gender: gender,
-                    height: height,
-                    weight: weight,
+                if (gender == '') {
+                  Fluttertoast.showToast(
+                    msg: 'Please choose your gender',
+                    fontSize: 20,
                   );
-                }));
+                } else if (height < 45 || height > 251) {
+                  Fluttertoast.showToast(
+                    msg: 'Please choose a correct height',
+                    fontSize: 20,
+                  );
+                } else if (weight < 0 || weight > 635) {
+                  Fluttertoast.showToast(
+                    msg: 'Please enter a correct weight',
+                    fontSize: 20,
+                  );
+                } else if (age < 0 || age > 123) {
+                  Fluttertoast.showToast(
+                    msg: 'Please enter a correct age',
+                    fontSize: 20,
+                  );
+                } else {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ResultPage(
+                      age: age,
+                      gender: gender,
+                      height: height,
+                      weight: weight,
+                    );
+                  }));
+                }
               },
               child: const Text(
                 'CALCULATE',
