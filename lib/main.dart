@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,9 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool maleIsPressed = false;
   bool femaleIsPressed = false;
-  double height = 120;
-  double weight = 80;
-  double age = 30;
+  int height = 120;
+  int weight = 80;
+  int age = 30;
+  String gender = 'Male';
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                     onTap: () {
                       setState(() {
+                        gender = 'Male';
                         maleIsPressed = true;
                         femaleIsPressed = false;
                       });
@@ -67,6 +69,7 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                     onTap: () {
                       setState(() {
+                        gender = 'Female';
                         femaleIsPressed = true;
                         maleIsPressed = false;
                       });
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> {
               ),
               RichText(
                 text: TextSpan(
-                    text: '${height.toInt()}',
+                    text: height.toString(),
                     style: const TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -125,10 +128,10 @@ class _HomePageState extends State<HomePage> {
               Slider(
                 min: 0,
                 max: 251,
-                value: height,
+                value: height.toDouble(),
                 onChanged: (value) {
                   setState(() {
-                    height = value;
+                    height = value.toInt();
                   });
                 },
               ),
@@ -168,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                                 flex: 100,
                               ),
                               FloatingActionButton(
+                                  heroTag: null,
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -179,6 +183,7 @@ class _HomePageState extends State<HomePage> {
                                 flex: 1,
                               ),
                               FloatingActionButton(
+                                  heroTag: null,
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -222,6 +227,7 @@ class _HomePageState extends State<HomePage> {
                                 flex: 100,
                               ),
                               FloatingActionButton(
+                                  heroTag: null,
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -233,6 +239,7 @@ class _HomePageState extends State<HomePage> {
                                 flex: 1,
                               ),
                               FloatingActionButton(
+                                  heroTag: null,
                                   mini: true,
                                   onPressed: () {
                                     setState(() {
@@ -254,7 +261,16 @@ class _HomePageState extends State<HomePage> {
             height: 50,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ResultPage(
+                    age: age,
+                    gender: gender,
+                    height: height,
+                    weight: weight,
+                  );
+                }));
+              },
               child: const Text(
                 'CALCULATE',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
