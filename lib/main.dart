@@ -107,45 +107,51 @@ class _HomePageState extends State<HomePage> {
                 ]),
           ),
           Expanded(
-              child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(children: [
+              child: Row(
+            children: [
               const Spacer(),
-              const Text(
-                'HEIGHT',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                width: MediaQuery.of(context).size.width - 40,
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10)),
+                child: Column(children: [
+                  const Spacer(),
+                  const Text(
+                    'HEIGHT',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                        text: height.toString(),
+                        style: const TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                        children: const [
+                          TextSpan(
+                              text: ' CM',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFeatures: [FontFeature.subscripts()]))
+                        ]),
+                  ),
+                  Slider(
+                    min: 45,
+                    max: 251,
+                    value: height.toDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        height = value.toInt();
+                      });
+                    },
+                  ),
+                  const Spacer()
+                ]),
               ),
-              RichText(
-                text: TextSpan(
-                    text: height.toString(),
-                    style: const TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                    children: const [
-                      TextSpan(
-                          text: ' CM',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFeatures: [FontFeature.subscripts()]))
-                    ]),
-              ),
-              Slider(
-                min: 45,
-                max: 251,
-                value: height.toDouble(),
-                onChanged: (value) {
-                  setState(() {
-                    height = value.toInt();
-                  });
-                },
-              ),
-              const Spacer()
-            ]),
+              const Spacer(),
+            ],
           )),
           Expanded(
             child: Row(
