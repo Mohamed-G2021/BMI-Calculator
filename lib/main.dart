@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('BMI Calculator'),
         ),
@@ -195,7 +194,8 @@ class _HomePageState extends State<HomePage> {
                                         controller: heightTextController,
                                         maxLength: 3,
                                         onEditingComplete: () {
-                                          if (int.parse(heightTextController
+                                          if (heightTextController.text == '' ||
+                                              int.parse(heightTextController
                                                       .text) <
                                                   45 ||
                                               int.parse(heightTextController
@@ -319,7 +319,10 @@ class _HomePageState extends State<HomePage> {
                                                     weightTextController,
                                                 maxLength: 3,
                                                 onEditingComplete: () {
-                                                  if (int.parse(
+                                                  if (weightTextController
+                                                              .text ==
+                                                          '' ||
+                                                      int.parse(
                                                               weightTextController
                                                                   .text) <
                                                           0 ||
@@ -462,7 +465,10 @@ class _HomePageState extends State<HomePage> {
                                                 controller: ageTextController,
                                                 maxLength: 3,
                                                 onEditingComplete: () {
-                                                  if (int.parse(
+                                                  if (ageTextController
+                                                              .text ==
+                                                          '' ||
+                                                      int.parse(
                                                               ageTextController
                                                                   .text) <
                                                           0 ||

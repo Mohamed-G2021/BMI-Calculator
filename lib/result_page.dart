@@ -71,7 +71,7 @@ class _ResultPageState extends State<ResultPage> {
         });
         return resultStatuses[5];
       } else {
-        return 'Please enter correct data';
+        return 'Sorry, something wrong happened ';
       }
     }
 
