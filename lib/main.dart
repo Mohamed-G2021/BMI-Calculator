@@ -1,13 +1,24 @@
 import 'dart:ui';
 import 'package:bmi_calculator/result_page.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   runApp(
-    MyApp(),
+    EasyLocalization(
+        supportedLocales: const [Locale('ar'), Locale('en')],
+        path: 'assets/translations',
+        startLocale: const Locale('ar'),
+        saveLocale: true,
+        fallbackLocale: const Locale('ar'),
+        child: const MyApp()),
     // DevicePreview(
     //   enabled: !kReleaseMode,
     //   builder: (context) => const MyApp(), // Wrap your app
@@ -20,8 +31,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -51,12 +65,58 @@ class _HomePageState extends State<HomePage> {
   final weightTextController = TextEditingController();
   bool editAgePressed = false;
   final ageTextController = TextEditingController();
+  dynamic dropDownValue;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('BMI Calculator'),
+          title: Text("app_title".tr()),
+          actions: [
+            SizedBox(
+              width: 100,
+              child: DropdownButtonHideUnderline(
+                child: ButtonTheme(
+                  alignedDropdown: true,
+                  child: DropdownButton(
+                    value: dropDownValue ?? 'arabic',
+                    items: [
+                      DropdownMenuItem(
+                        onTap: () {
+                          context.setLocale(const Locale('ar'));
+                        },
+                        value: 'arabic',
+                        child: Flag.fromCode(
+                          FlagsCode.SA,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        onTap: () {
+                          context.setLocale(const Locale('en'));
+                        },
+                        value: 'english',
+                        child: Flag.fromCode(
+                          FlagsCode.US,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        dropDownValue = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            )
+          ],
         ),
         body: CustomScrollView(
           slivers: [
@@ -72,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                gender = 'Male';
+                                gender = "male".tr();
                                 height = menAvgHeight;
                                 weight = menAvgWeight;
                                 maleIsPressed = true;
@@ -88,14 +148,14 @@ class _HomePageState extends State<HomePage> {
                                     ? Colors.blue
                                     : Colors.grey[400],
                               ),
-                              child: Column(children: const [
-                                Icon(
+                              child: Column(children: [
+                                const Icon(
                                   Icons.male,
                                   size: 140,
                                 ),
                                 Text(
-                                  'MALE',
-                                  style: TextStyle(
+                                  "male".tr(),
+                                  style: const TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 )
@@ -106,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                gender = 'Female';
+                                gender = "female".tr();
                                 height = womenAvgHeight;
                                 weight = womenAvgWeight;
                                 femaleIsPressed = true;
@@ -122,14 +182,14 @@ class _HomePageState extends State<HomePage> {
                                     ? Colors.blue
                                     : Colors.grey[400],
                               ),
-                              child: Column(children: const [
-                                Icon(
+                              child: Column(children: [
+                                const Icon(
                                   Icons.female,
                                   size: 140,
                                 ),
                                 Text(
-                                  'FEMALE',
-                                  style: TextStyle(
+                                  "female".tr(),
+                                  style: const TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold),
                                 )
@@ -151,9 +211,9 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Column(children: [
                           const Spacer(),
-                          const Text(
-                            'HEIGHT',
-                            style: TextStyle(
+                          Text(
+                            "height".tr(),
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                           Row(
@@ -202,8 +262,7 @@ class _HomePageState extends State<HomePage> {
                                                       .text) >
                                                   251) {
                                             Fluttertoast.showToast(
-                                              msg:
-                                                  'Please choose a correct height',
+                                              msg: "height_error_message".tr(),
                                               fontSize: 20,
                                             );
                                           } else {
@@ -222,10 +281,10 @@ class _HomePageState extends State<HomePage> {
                                               fontSize: 35,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.black),
-                                          children: const [
+                                          children: [
                                             TextSpan(
-                                                text: ' CM',
-                                                style: TextStyle(
+                                                text: ' ${"cm".tr()}',
+                                                style: const TextStyle(
                                                     fontSize: 20,
                                                     fontFeatures: [
                                                       FontFeature.subscripts()
@@ -268,9 +327,9 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    'WEIGHT',
-                                    style: TextStyle(
+                                  Text(
+                                    "weight".tr(),
+                                    style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -332,7 +391,8 @@ class _HomePageState extends State<HomePage> {
                                                           635) {
                                                     Fluttertoast.showToast(
                                                       msg:
-                                                          'Please choose a correct weight',
+                                                          "weight_error_message"
+                                                              .tr(),
                                                       fontSize: 20,
                                                     );
                                                   } else {
@@ -353,10 +413,10 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.black),
-                                                  children: const [
+                                                  children: [
                                                     TextSpan(
-                                                        text: ' KG',
-                                                        style: TextStyle(
+                                                        text: ' ${"kg".tr()}',
+                                                        style: const TextStyle(
                                                             fontSize: 20,
                                                             fontFeatures: [
                                                               FontFeature
@@ -413,9 +473,9 @@ class _HomePageState extends State<HomePage> {
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    'AGE',
-                                    style: TextStyle(
+                                  Text(
+                                    "age".tr(),
+                                    style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -477,8 +537,8 @@ class _HomePageState extends State<HomePage> {
                                                                   .text) >
                                                           123) {
                                                     Fluttertoast.showToast(
-                                                      msg:
-                                                          'Please choose a correct age',
+                                                      msg: "age_error_message"
+                                                          .tr(),
                                                       fontSize: 20,
                                                     );
                                                   } else {
@@ -499,10 +559,10 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.black),
-                                                  children: const [
+                                                  children: [
                                                     TextSpan(
-                                                        text: ' YR',
-                                                        style: TextStyle(
+                                                        text: ' ${"year".tr()}',
+                                                        style: const TextStyle(
                                                             fontSize: 20,
                                                             fontFeatures: [
                                                               FontFeature
@@ -556,22 +616,22 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         if (gender == '') {
                           Fluttertoast.showToast(
-                            msg: 'Please choose your gender',
+                            msg: "gender_error_message".tr(),
                             fontSize: 20,
                           );
                         } else if (height < 45 || height > 251) {
                           Fluttertoast.showToast(
-                            msg: 'Please choose a correct height',
+                            msg: "height_error_message".tr(),
                             fontSize: 20,
                           );
                         } else if (weight < 0 || weight > 635) {
                           Fluttertoast.showToast(
-                            msg: 'Please enter a correct weight',
+                            msg: "weight_error_message".tr(),
                             fontSize: 20,
                           );
                         } else if (age < 0 || age > 123) {
                           Fluttertoast.showToast(
-                            msg: 'Please enter a correct age',
+                            msg: "age_error_message".tr(),
                             fontSize: 20,
                           );
                         } else {
@@ -586,9 +646,9 @@ class _HomePageState extends State<HomePage> {
                           }));
                         }
                       },
-                      child: const Text(
-                        'CALCULATE',
-                        style: TextStyle(
+                      child: Text(
+                        "calculate".tr(),
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.w500),
