@@ -1,9 +1,7 @@
 import 'dart:ui';
 import 'package:bmi_calculator/result_page.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flag/flag.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -19,10 +17,6 @@ void main() async {
         saveLocale: true,
         fallbackLocale: const Locale('ar'),
         child: const MyApp()),
-    // DevicePreview(
-    //   enabled: !kReleaseMode,
-    //   builder: (context) => const MyApp(), // Wrap your app
-    // ),
   );
 }
 
