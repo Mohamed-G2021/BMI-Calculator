@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
@@ -23,12 +24,12 @@ class _ResultPageState extends State<ResultPage> {
   Widget build(BuildContext context) {
     double? result = widget.weight / (pow((widget.height / 100), 2));
     List<String> resultStatuses = [
-      'Underweight',
-      'Normal weight',
-      'Pre-obesity',
-      'Obesity class 1',
-      'Obesity class 2',
-      'Obesity class 3'
+      "under_weight".tr(),
+      "normal_weight".tr(),
+      "pre_obesity".tr(),
+      "obesity_class1".tr(),
+      "obesity_class2".tr(),
+      "obesity_class3".tr(),
     ];
     Color statusShownColor = Colors.black;
     List<Color> statusColor = [
@@ -71,13 +72,13 @@ class _ResultPageState extends State<ResultPage> {
         });
         return resultStatuses[5];
       } else {
-        return 'Sorry, something wrong happened ';
+        return "result_error_message".tr();
       }
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Result'),
+        title: Text("result".tr()),
       ),
       body: Center(
         child: Column(
@@ -86,7 +87,7 @@ class _ResultPageState extends State<ResultPage> {
           children: [
             RichText(
               text: TextSpan(
-                  text: 'Result: ',
+                  text: '${"result".tr()}: ',
                   style: const TextStyle(fontSize: 30, color: Colors.black),
                   children: [
                     TextSpan(
@@ -104,7 +105,7 @@ class _ResultPageState extends State<ResultPage> {
             ),
             RichText(
                 text: TextSpan(
-                    text: 'Status: ',
+                    text: '${"status".tr()}: ',
                     style: const TextStyle(fontSize: 30, color: Colors.black),
                     children: [
                   TextSpan(
@@ -119,28 +120,28 @@ class _ResultPageState extends State<ResultPage> {
               height: 10,
             ),
             Text(
-              'Gender: ${widget.gender}',
+              '${"gender".tr()}: ${widget.gender}',
               style: const TextStyle(fontSize: 30),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Age: ${widget.age}',
+              '${"age".tr()}: ${widget.age}',
               style: const TextStyle(fontSize: 30),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Weight: ${widget.weight}',
+              '${"weight".tr()}: ${widget.weight}',
               style: const TextStyle(fontSize: 30),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Height: ${widget.height}',
+              '${"height".tr()}: ${widget.height}',
               style: const TextStyle(fontSize: 30),
             ),
           ],
