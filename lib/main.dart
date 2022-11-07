@@ -634,7 +634,9 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(builder: (context) {
                             return ResultPage(
                               age: age,
-                              gender: gender,
+                              gender: gender == 'male'
+                                  ? "male".tr()
+                                  : "female".tr(),
                               height: height,
                               weight: weight,
                             );

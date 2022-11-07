@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
@@ -76,9 +77,56 @@ class _ResultPageState extends State<ResultPage> {
       }
     }
 
+    dynamic dropDownValue;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("result".tr()),
+        actions: [
+          SizedBox(
+            width: 100,
+            child: DropdownButtonHideUnderline(
+              child: ButtonTheme(
+                alignedDropdown: true,
+                child: DropdownButton(
+                  value: dropDownValue ?? 'arabic',
+                  items: [
+                    DropdownMenuItem(
+                      onTap: () {
+                        context.setLocale(const Locale('ar'));
+                      },
+                      value: 'arabic',
+                      child: Flag.fromCode(
+                        FlagsCode.SA,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      onTap: () {
+                        context.setLocale(const Locale('en'));
+                      },
+                      value: 'english',
+                      child: Flag.fromCode(
+                        FlagsCode.US,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      dropDownValue = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          )
+        ],
       ),
       body: Center(
         child: Column(
