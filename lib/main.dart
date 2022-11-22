@@ -630,7 +630,6 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20,
                           );
                         } else {
-                          debugPrint("gender is : $gender");
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return ResultPage(
